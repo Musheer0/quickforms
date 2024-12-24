@@ -9,6 +9,7 @@ import { useEditorStore } from '@/stores/use-editor-store';
 import { Reorder, useDragControls } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import UploadImage from './upload-image';
+import { Switch } from '../ui/switch';
 // Enum definition
 export enum QuestionType {
     ShortAns = "shortans",
@@ -40,7 +41,7 @@ const RatingComponent = () => <input type="number" min="1" max="5" />;
 
 // Component for MultipleOption & Options
 const OptionComponent = ({options,id}:{options?:string[],id:string}) =>{
-  const {EditOption,setSaved} = useEditorStore()
+  const {EditOption,setSaved,DeleteOption} = useEditorStore()
 
   return  (
     <>
@@ -51,12 +52,17 @@ const OptionComponent = ({options,id}:{options?:string[],id:string}) =>{
         option==='other'&& 'flex-col border w-full flex-1'
        )} key={i}>
       <div className='flex items-center gap-1'>
-      <input disabled type="checkbox" id="option1" name="option1" value="Option 1" />
       <Input   onChange={(e)=>{
       setSaved(false);
       EditOption({name:e.target.value, index:i, id:id})
        }} 
       placeholder='option name' value={option}/>
+      <button className='p-1 text-destructive hover:bg-muted-foreground/10 rounded'
+      onClick={()=>{
+        setSaved(false);
+        DeleteOption({id, index:i})
+      }}
+      ><Trash2Icon size={14}/></button>
       </div>
       {option==='other' && 
       <div className='flex flex-col'>
@@ -104,7 +110,7 @@ const Field = ({field}:{field:FormField}) => {
   const isHeading =QuestionType.Heading===field.type;
   const isOption = field.type ===QuestionType.MultipleOption || field.type===QuestionType.Options
    const [isDraging ,setIsDragning] = useState(false)
-      const {removeField,setSaved,changeFieldMetaData,addOptionField,changeFieldType, addOption,AddImageToField}= useEditorStore()
+      const {removeField,setSaved,changeFieldMetaData,addOptionField,changeFieldType, addOption,AddImageToField, ToggleFieldRequired}= useEditorStore()
   return (
     <Reorder.Item key={field.id} value={field} dragListener={false} dragControls={controls}>
       <div
@@ -148,13 +154,21 @@ const Field = ({field}:{field:FormField}) => {
       >
         <Trash2Icon/>
       </Button>
-      
+      <div className='flex items-center gap-1'>
+        <p className='text-xs text-destructive'>required</p>
+        <Switch checked={field.required} onClick={()=>{
+          setSaved(false);
+           ToggleFieldRequired({id:field.id})
+        }}/>
+      </div>
     </div>
 {!isBanner &&        
  <ResizeAbleTextArea onchange={(e)=>{
               setSaved(false);
             changeFieldMetaData({id:field.id, description:e})
-        }}/>}
+        }}
+        defaultValue={field.description}
+        />}
         {isOption &&       <Button onClick={()=>{
           addOption({id:field.id});
           setSaved(false);

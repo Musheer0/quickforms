@@ -14,7 +14,8 @@ export type FormData = {
 interface Store {
     formData: FormData | null;
     history: FormData[];
-    setFormData: (form: FormData) => void;
+    preview:boolean;
+    setFormData: (form: FormData|null) => void;
     isSaved: boolean;
     setSaved: (save: boolean) => void;
     addField: (type?:QuestionType) => void;
@@ -28,16 +29,19 @@ interface Store {
     changeFieldType:({ id, type}: { id: string; type:QuestionType})=>void;
     addOption: ({ id}: { id: string;})=>void;
     EditOption: ({ id, name, index}: { id: string;name:string, index:number})=>void;
+    DeleteOption: ({ id, index}: { id: string; index:number})=>void;
     pushHistory:(form:FormData)=>void;
     popHistory:()=>void;
     setCurrentFormData:(i:number)=>void;
     AddImageToField: ({ id, image }: { id: string, image: string }) => void;
-
+    ToggleFieldRequired: ({ id}:{id:string})=>void,
+    TogglePreview:()=>void;
 }
 
 // Create Zustand store
 export const useEditorStore = create<Store>((set) => ({
     formData: null,
+    preview:true,
     history:[],
     setFormData: (form) => set({ formData: form }),
     isSaved: true,
@@ -159,7 +163,7 @@ export const useEditorStore = create<Store>((set) => ({
               field.id === id
                 ? {
                     ...field,
-                   options: ['option 1'],
+                   options: field.options.length<1 ? ['option']: field.options,
                    type
                   }
                 : field
@@ -205,7 +209,7 @@ export const useEditorStore = create<Store>((set) => ({
                     ? {
                         ...field,
                        type,
-                       options:[]
+                       options: field.options.length<1 ? []: field.options
                       }
                     : field
                 );
@@ -283,7 +287,49 @@ export const useEditorStore = create<Store>((set) => ({
                     return state;
                 });
             },
-            
-        
-    
+            DeleteOption: ({ id ,index}) =>
+              set((state) => {
+                if (state.formData) {
+                  const updatedFields = state.formData.fields.map((field) =>
+                    field.id === id
+                      ? {
+                          ...field,
+                         options: field.options?.filter((_,i)=>i!==index)
+                        }
+                      : field
+                  );
+                  const updatedFormData = {
+                    ...state.formData,
+                    fields: updatedFields
+                  }
+                  return {
+                    formData: updatedFormData,
+                  
+                  };
+                }
+                return state;
+              }),   
+              ToggleFieldRequired: ({ id}) =>
+                set((state) => {
+                  if (state.formData) {
+                    const updatedFields = state.formData.fields.map((field) =>
+                      field.id === id
+                        ? {
+                            ...field,
+                           required: !field.required
+                          }
+                        : field
+                    );
+                    const updatedFormData = {
+                      ...state.formData,
+                      fields: updatedFields
+                    }
+                    return {
+                      formData: updatedFormData,
+                    
+                    };
+                  }
+                  return state;
+                }),
+                TogglePreview: ()=>set((prev)=>({preview: !prev.preview}))
 }));

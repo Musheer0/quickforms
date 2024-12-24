@@ -13,7 +13,7 @@ const SaveFormButton = () => {
       setSaving(true);
      try {
       await UpdateForm(formData!).then((res)=>{
-        console.log(res);
+        localStorage.removeItem('form-'+formData!.id);
       })
      } catch (error) {
        console.log(error)

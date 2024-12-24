@@ -61,7 +61,23 @@ export const UpdateForm = async(form:FormData)=>{
             data: form.fields
         }
        })
-       return {updatedform}
+       return {success:true}
+    }
+    else return {error:'Un-authorized'}
+}
+export const UpdateFormTitle = async(id:string, title:string)=>{
+    const session = await auth();
+    if(session?.user?.id){
+       const updatedform = await prisma.form.update({
+        where:{
+            id,
+            userId: session.user.id
+        },
+        data:{
+            title: title,
+        }
+       })
+       return {new_title : updatedform.title, id:id}
     }
     else return {error:'Un-authorized'}
 }

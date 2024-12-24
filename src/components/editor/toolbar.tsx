@@ -1,10 +1,11 @@
 "use client"
-import {  HeadingIcon, ImagePlusIcon, LucideIcon, PlusSquare, PrinterIcon, SettingsIcon } from 'lucide-react'
-import React  from 'react'
+import {  Eye, EyeClosed, HeadingIcon, ImagePlusIcon, LucideIcon, PlusSquare, PrinterIcon, SettingsIcon } from 'lucide-react'
+import React, { useEffect }  from 'react'
 import { Button } from '../ui/button'
 import { useEditorStore } from '@/stores/use-editor-store'
 import { QuestionType } from './field'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 interface ToolbarButton {
   label:string,
   icon :LucideIcon,
@@ -12,8 +13,38 @@ interface ToolbarButton {
   isActive?: boolean
 }
 const Toolbar = () => {
-  const {addField,setSaved, formData} =useEditorStore();
+  const {addField,setSaved, formData, TogglePreview, preview} =useEditorStore();
+   const handleKeyEvent = (e:KeyboardEvent)=>{
+    if(formData)
+    if(e.ctrlKey){
+      if(e.key==='n'){
+        e.preventDefault();
+        addField();
+        setSaved(false);
+      }
+      if(e.key==='b'){
+        e.preventDefault();
+        addField(QuestionType.Banner);
+        setSaved(false);
+      }
+      if(e.key==='h'){
+        e.preventDefault();
+        addField(QuestionType.Heading);
+        setSaved(false);
+      }
+      if(e.key==='q'){
+        e.preventDefault();
+       TogglePreview();
+      }
 
+    }
+  }
+  useEffect(()=>{
+     window.addEventListener("keydown", handleKeyEvent);
+     return(()=>{
+      window.removeEventListener("keydown",handleKeyEvent)
+     })
+  },[])
   const buttons:ToolbarButton[] = [
     {
       label: 'add field',
@@ -66,6 +97,7 @@ const Toolbar = () => {
            <Link href={`/document/${formData.id}/settings`}>
                  <Button size={'icon'} variant={'outline'}><SettingsIcon/></Button>
                  </Link>
+            
 
        </div>
     </div>

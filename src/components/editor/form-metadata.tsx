@@ -14,11 +14,13 @@ const FormMetadata = () => {
             changeFormMetaData({title:e.target.value})
          }}
       className='font-bold text-[32px] h-full p-0 border-0' value={formData?.title||''}/>
+      <p className='text-xs text-destructive'>* indicates required</p>
       <ResizeAbleTextArea 
       onchange={(e)=>{
         changeFormMetaData({description:e});
         setSaved(false)
       }}
+      defaultValue={formData?.description}
       />
     </div>
   )

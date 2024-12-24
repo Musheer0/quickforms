@@ -10,10 +10,10 @@ interface ToolbarButton {
   onclick : ()=>void,
   isActive?: boolean
 }
-const ResizeAbleTextArea = ({onchange}:{onchange?:(data:string)=>void}) => {
+const ResizeAbleTextArea = ({onchange, defaultValue}:{onchange?:(data:string)=>void,defaultValue?:string}) => {
     const editor = useEditor({
         extensions: [StarterKit,Underline],
-        content: `<p>Description</p>`,
+        content: defaultValue,
         editorProps:{
             attributes:{
                 class: 'p-2 print:p-0'
@@ -24,6 +24,7 @@ const ResizeAbleTextArea = ({onchange}:{onchange?:(data:string)=>void}) => {
           onchange(e.editor.getHTML())
          }
          }
+         
     })
     const tools:ToolbarButton[] = [
         {

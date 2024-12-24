@@ -6,6 +6,7 @@ import DisableFormSwitch from '@/components/shared/disable-switch'
 import ExportJsonButton from '@/components/shared/export-json-button'
 import LoginRequiredSwitch from '@/components/shared/login-required-swith'
 import TogglePublishButton from '@/components/shared/publish-button'
+import { Button } from '@/components/ui/button'
 import { CardTitle } from '@/components/ui/card'
 
 import Link from 'next/link'
@@ -16,7 +17,10 @@ const page = async({params:{id}}:any) => {
 if(form)
   return (
     <>
-      <div className='header w-full border-b p-2'>
+      <div className='header w-full border-b p-2 flex flex-col gap-1'>
+        <Link href={'/dashboard'}>
+        <Button variant={'ghost'} className='px-1'>Back to dashboard</Button>
+        </Link>
         <CardTitle>Settings</CardTitle>
       </div>
       <div className="settings flex flex-col gap-1">

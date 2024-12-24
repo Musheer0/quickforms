@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetFormById } from '@/actions/form-actions';
 import Navbar from '@/components/editor/navbar';
-import Editor from '@/components/editor/playground';
+import PlayGround from '@/components/editor/playground';
+import Preview from '@/components/editor/preview';
 import SaveFormButton from '@/components/editor/save-form-button';
 import Toolbar from '@/components/editor/toolbar';
 import { FormData } from '@/stores/use-editor-store';
@@ -29,7 +30,11 @@ const Page = async ({
       <>
       <Navbar/>
         <Toolbar />
-        <Editor form={formData as FormData} />
+      <div className='flex-1 bg-muted-foreground/20  w-full flex items-start gap-1'>
+      <PlayGround form={formData as FormData} />
+      
+      <Preview/>
+      </div>
         <SaveFormButton />
       </>
     );

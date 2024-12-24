@@ -6,13 +6,15 @@ import React from 'react'
 import { ModeToggle } from '../ui/mode-toggle'
 import { usePathname } from 'next/navigation'
 import UserProfile from './user-profile'
+import { useSession } from 'next-auth/react'
 
 const Navbar = () => {
-    const pathname = usePathname()
+    const pathname = usePathname();
+    const {status}=  useSession()
 if(!pathname.includes('/document') && !pathname.includes('/auth'))
   return (
     <nav className='flex border-b shadow-sm p-3 gap-2 justify-between items-center'>
-        <Link href={'/'}>
+        <Link href={status==='authenticated' ?'/dashboard':'/'}>
         <div className='flex items-center '>
             <Image src={'/logo.png'} width={50} height={50} alt='logo'/>
             <h1 className='font-black text-xl hidden sm:flex'>QuickForms</h1>

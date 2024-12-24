@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav className='w-full print:hidden p-2 flex items-center justify-between'>
        <div className="left flex  flex-1 items-center gap-2">
-     <Link href={'/'}>
+     <Link href={'/dashboard'}>
      <div className="logo flex items-center ">
             <Image src={'/logo.png'} width={50} height={50} className='object-cover' alt='logo'/>
             <h1 className='font-black  hidden md:flex'>Quick Forms</h1>

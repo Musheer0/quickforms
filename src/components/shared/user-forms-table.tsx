@@ -9,9 +9,10 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   
-import {  MoreVertical, SettingsIcon } from 'lucide-react'
+import {  Edit3Icon, MoreVertical, SettingsIcon } from 'lucide-react'
 import Link from 'next/link'
 import { Deleteform } from '@/actions/form-actions'
+import RenameForm from './rename-form'
   
 const UserFormData = ({data}:{data:forms[]}) => {
   const [forms, setForms] = useState(data);
@@ -22,6 +23,17 @@ const UserFormData = ({data}:{data:forms[]}) => {
     await Deleteform(id);
     setForms(updatedForms);
     setIsloading(false)
+  }
+  const renameform = (new_title:string, id:string)=>{
+    const updatedForms = forms.map((form)=>{
+      if(form.id===id){
+       form.title = new_title;
+       return form
+      }
+      return form
+    });
+    setForms(updatedForms)
+
   }
   return (
 <div className='flex flex-col  w-full'>
@@ -41,6 +53,12 @@ const UserFormData = ({data}:{data:forms[]}) => {
      await deleteform(form.id)
      }}
     >{isLoading ? 'Deleting': 'Delete Form'}</DropdownMenuItem>
+        <RenameForm prev={form.title} onUpdate={renameform} id={form.id}>
+       <button className='flex items-center w-full gap-2 py-1 px-2 text-sm'>
+       Rename <Edit3Icon size={16}/>
+       </button>
+      </RenameForm>
+
     <DropdownMenuSeparator />
     <Link href={`/document/${form.id}/settings`}>
     <DropdownMenuItem>Settings <SettingsIcon/></DropdownMenuItem>
