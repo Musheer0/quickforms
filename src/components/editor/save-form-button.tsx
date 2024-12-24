@@ -12,7 +12,7 @@ const SaveFormButton = () => {
     const handleClick = async()=>{
       setSaving(true);
      try {
-      await UpdateForm(formData!).then((res)=>{
+      await UpdateForm(formData!).then(()=>{
         localStorage.removeItem('form-'+formData!.id);
       })
      } catch (error) {

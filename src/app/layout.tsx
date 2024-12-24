@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
-import Navbar from "@/components/layout/navbar";
 import { SessionProvider } from "next-auth/react";
 import {Toaster}  from 'sonner'
 export const metadata: Metadata = {
@@ -20,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${font.className}  flex flex-col min-h-screen antialiased`}
+        className={`${font.className}  overflow-x-hidden flex flex-col min-h-screen antialiased`}
       >
         <ThemeProvider 
         attribute='class'
@@ -29,7 +28,6 @@ export default function RootLayout({
         disableTransitionOnChange
         >
           <SessionProvider>
-        <Navbar/>
         <Toaster/>
         {children}
         </SessionProvider>

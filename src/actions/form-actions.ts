@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server"
 
 import { auth } from "@/auth"
 import prisma from "../../prisma/db";
 import { FormData } from "@/stores/use-editor-store";
+import { error } from "console";
 
 export const CreateForm = async()=>{
     const session = await auth();
@@ -61,7 +63,7 @@ export const UpdateForm = async(form:FormData)=>{
             data: form.fields
         }
        })
-       return {success:true}
+       return {success:updatedform}
     }
     else return {error:'Un-authorized'}
 }
@@ -177,4 +179,13 @@ export const TogglePublishForm = async(id:string, prev:boolean)=>{
         return {form}
     }
     return {error: 'unauthorized'}
+}
+export const CreateFormUsingTemplate = async(template:FormData)=>{
+    const form = await CreateForm();
+    if(form.id){
+     const new_form = await UpdateForm(template);
+     if(new_form.success) return {form :{...new_form.success}};
+     else return {error: 'error using template'}
+    }
+    else return {error: 'error using template'}
 }

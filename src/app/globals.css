@@ -70,3 +70,27 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.mask{
+  mask-image: linear-gradient(to top,transparent 20%, black, transparent 70%);
+  -webkit-mask-image: linear-gradient(to right,transparent .01%, black, transparent 99.9%); /* For Safari */
+}
+
+.gird-bg{
+  background-image: 
+  repeating-linear-gradient(to right, #3498db 1px, transparent 1px),
+  repeating-linear-gradient(to bottom, #3498db 1px, transparent 1px);
+background-size: 20px 20px; /* Adjusts grid spacing */
+}
+.radial-top{
+  background: rgb(75,255,122);
+  background: radial-gradient(circle, #a855f7 42%, rgba(0,20,5,1) 88%, rgba(0,14,6,1) 100%); }
+
+  .about-img-left{
+    transform-style: preserve-3d;
+    transform-origin: center;
+    transform: rotateY(30deg);
+  }
+  .scene{
+    perspective: 10000px;
+
+  }

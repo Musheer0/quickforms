@@ -34,7 +34,7 @@ const UploadImage = ({onUpload, prevurl}:{onUpload?:(url:string)=>void,prevurl:s
     }
     {(isOpen ) && <>
     
-   <div className="backdrop fixed w-full h-screen  top-0 left-0 bg-background/50 flex items-center justify-center">
+   <div className="backdrop z-50 fixed w-full h-screen  top-0 left-0 bg-background/50 flex items-center justify-center">
    <div className=' flex flex-col gap-2 w-full max-w-[500px] bg-background border shadow-md rounded-lg p-4'>
     <CardHeader className='flex p-0 justify-between items-center w-full flex-row'>
     <CardTitle>Upload Image</CardTitle>

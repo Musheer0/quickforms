@@ -1,11 +1,10 @@
 "use client"
-import {  Eye, EyeClosed, HeadingIcon, ImagePlusIcon, LucideIcon, PlusSquare, PrinterIcon, SettingsIcon } from 'lucide-react'
+import {   HeadingIcon, ImagePlusIcon, LucideIcon, PlusSquare, PrinterIcon, SettingsIcon } from 'lucide-react'
 import React, { useEffect }  from 'react'
 import { Button } from '../ui/button'
 import { useEditorStore } from '@/stores/use-editor-store'
 import { QuestionType } from './field'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 interface ToolbarButton {
   label:string,
   icon :LucideIcon,
@@ -13,7 +12,7 @@ interface ToolbarButton {
   isActive?: boolean
 }
 const Toolbar = () => {
-  const {addField,setSaved, formData, TogglePreview, preview} =useEditorStore();
+  const {addField,setSaved, formData, TogglePreview} =useEditorStore();
    const handleKeyEvent = (e:KeyboardEvent)=>{
     if(formData)
     if(e.ctrlKey){

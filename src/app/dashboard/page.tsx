@@ -1,3 +1,4 @@
+import Navbar from '@/components/layout/navbar'
 import CreateNewProjectButton from '@/components/shared/create-new-form-button'
 import UserForms from '@/components/shared/user-forms'
 import { PlusCircleIcon } from 'lucide-react'
@@ -5,6 +6,8 @@ import React, { Suspense } from 'react'
 
 const page = () => {
   return (
+    <>
+    <Navbar/>
     <main className='w-full flex-1 flex flex-col gap-2'>
         <div className="templates w-full bg-muted-foreground/10 pb-4 gap-3  p-2">
         <p className='text-lg font-semibold'>Check out these templates to start with</p>
@@ -28,6 +31,7 @@ const page = () => {
         </div>
         </div>
     </main>
+    </>
   )
 }
 
